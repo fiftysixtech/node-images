@@ -1,11 +1,11 @@
 # see `ord --help` for setting documentation
 
 bitcoin_data_dir: /node/data/
+cookie_file: /node/data/.cookie
 server_url: http://localhost:8080
 chain: mainnet
-config: /node/configs/ord.yaml
-cookie_file: /node/data/.cookie
-data_dir: /node/data/ord
+config: /ord/configs/ord.yaml
+data_dir: /ord/data/
 index_runes: true
 index_sats: true
 index_spent_sats: true

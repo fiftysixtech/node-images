@@ -23,6 +23,7 @@ services:
       - bitcoin-core
     volumes:
       - bitcoin-data:/node
+      - ord-data:/ord
     networks:
       - bitcoin-net
 
@@ -32,4 +33,4 @@ networks:
 
 volumes:
   bitcoin-data:
-
+  ord-data:

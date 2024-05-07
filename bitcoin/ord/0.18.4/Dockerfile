@@ -6,7 +6,7 @@ ENV ORD_VERSION="0.18.4"
 ENV TARBALL_NAME="ord-${ORD_VERSION}"
 ENV BINARY_URL="https://github.com/ordinals/ord/releases/download/${ORD_VERSION}/${TARBALL_NAME}-x86_64-unknown-linux-gnu.tar.gz"
 
-ENV ROOT_DIR="/node"
+ENV ROOT_DIR="/ord"
 ENV TMP_DIR="/var/tmp"
 ENV CONFIGS_DIR="${ROOT_DIR}/configs"
 
@@ -23,8 +23,8 @@ RUN chown -R nodeuser:nodegroup "${ROOT_DIR}/"
 
 EXPOSE 8332 18332 18443 8333 18333 18444
 
-VOLUME ["/node"]
+VOLUME ["/ord"]
 
-ENTRYPOINT ["/node/scripts/ord-entrypoint.sh"]
+ENTRYPOINT ["/ord/scripts/ord-entrypoint.sh"]
 
 CMD ["ord", "server", "--http-port", "8080"]
