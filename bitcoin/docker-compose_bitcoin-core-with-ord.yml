@@ -1,6 +1,6 @@
 services:
   bitcoin-core:
-    image: bitcoin-core:27.0 #fiftysix/bitcoin-core:latest
+    image: fiftysix/bitcoin-core:latest
     container_name: bitcoin-core
     ports:
       - "8332:8332"
@@ -11,7 +11,7 @@ services:
       - bitcoin-net
 
   ord:
-    image: ord:0.18.4 #fiftysix/ord:latest
+    image: fiftysix/ord:latest
     command: ord --bitcoin-rpc-url http://bitcoin-core:8332 server
     container_name: ord
     ports:

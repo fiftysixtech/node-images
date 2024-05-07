@@ -1,6 +1,6 @@
 services:
   bitcoin-node:
-    image: bitcoin-core:27.0 #fiftysix/bitcoin-core:latest
+    image: fiftysix/bitcoin-core:latest
     container_name: bitcoin-core
     ports:
       - "8332:8332"
