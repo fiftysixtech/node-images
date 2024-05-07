@@ -17,6 +17,7 @@ RUN mv ${TMP_DIR}/${TARBALL_NAME}/ord /usr/bin/ \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY "entrypoint.sh" "${ROOT_DIR}/scripts/ord-entrypoint.sh"
+COPY "ord.yaml" "${CONFIGS_DIR}/ord.yaml"
 
 RUN chown -R nodeuser:nodegroup "${ROOT_DIR}/"
 
