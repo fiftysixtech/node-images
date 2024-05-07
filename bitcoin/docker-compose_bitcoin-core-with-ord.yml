@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   bitcoin-core:
     image: bitcoin-core:27.0 #fiftysix/bitcoin-core:latest
