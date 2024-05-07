@@ -2,7 +2,7 @@
 
 bitcoin_data_dir: /node/data/
 cookie_file: /node/data/.cookie
-server_url: http://localhost:8080
+server_url: http://localhost:80
 chain: mainnet
 config: /ord/configs/ord.yaml
 data_dir: /ord/data/

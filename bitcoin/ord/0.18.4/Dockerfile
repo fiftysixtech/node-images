@@ -27,4 +27,4 @@ VOLUME ["/ord"]
 
 ENTRYPOINT ["/ord/scripts/ord-entrypoint.sh"]
 
-CMD ["ord", "server", "--http-port", "8080"]
+CMD ["ord", "server", "--http-port", "80"]

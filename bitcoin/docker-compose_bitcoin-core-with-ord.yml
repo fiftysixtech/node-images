@@ -17,7 +17,6 @@ services:
     command: ord --bitcoin-rpc-url http://bitcoin-core:8332 server
     container_name: ord
     ports:
-      - "8080:8080"
       - "80:80"
     depends_on:
       - bitcoin-core
