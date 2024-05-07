@@ -12,18 +12,6 @@ services:
     networks:
       - bitcoin-net
 
-        #  ord-service:
-        #    image: fiftysix/ord:latest
-        #    container_name: ord-service
-        #    depends_on:
-        #      - bitcoin-node
-        #    environment:
-        #      BITCOIN_NODE_URI: "bitcoin-node:8332"
-        #      BITCOIN_NODE_USER: "user"
-        #      BITCOIN_NODE_PASS: "pass"
-        #    networks:
-        #      - bitcoin-net
-
 networks:
   bitcoin-net:
     driver: bridge
