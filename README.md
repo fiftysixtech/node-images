@@ -1,5 +1,18 @@
 # Fiftysix Blockchain Node Images
 
+## Blockchain Sync Information
+
+### Bitcoin
+
+| Node | Space Required | Time | Comments |
+|----------|----------|----------|----------|
+| Bitcoin Core | ~600MB | ~24 hours | - |
+| Bitcoin Core with Ord | ... | ... | ... |
+
+### Ethereum
+
+...
+
 ## Installing Docker and Docker Compose
 
 In order to run Fiftysix blockchain node images, Docker and Docker Compose is required. Below is a guide on how to install both on different operating systems.
@@ -96,11 +109,11 @@ docker logs <container-name>
 
 ### Bitcoin Core
 
-Bitcoin Core connects to the Bitcoin peer-to-peer network to download and fully validate blocks and transactions." - [Bitcoin Core Github](https://github.com/bitcoin/bitcoin)
+"Bitcoin Core connects to the Bitcoin peer-to-peer network to download and fully validate blocks and transactions." - [Bitcoin Core Github](https://github.com/bitcoin/bitcoin)
 
 #### JSON-RPC
 
-Using the base compose file, one can interact with `bitcoin-core` using the following request:
+Using the base compose file, one can interact with Bitcoin Core using the following request:
 
 ```
 curl --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getblockcount", "params": []}' -H 'content-type: text/plain;' http://127.0.0.1:8332/
