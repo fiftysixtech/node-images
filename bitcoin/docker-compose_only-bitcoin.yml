@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  bitcoin-node:
+    image: bitcoin-core:27.0 #fiftysix/bitcoin-core:latest
+    container_name: bitcoin-core
+    ports:
+      - "8332:8332"
+      - "8333:8333"
+    volumes:
+      - bitcoin-data:/node
+    networks:
+      - bitcoin-net
+
+        #  ord-service:
+        #    image: fiftysix/ord:latest
+        #    container_name: ord-service
+        #    depends_on:
+        #      - bitcoin-node
+        #    environment:
+        #      BITCOIN_NODE_URI: "bitcoin-node:8332"
+        #      BITCOIN_NODE_USER: "user"
+        #      BITCOIN_NODE_PASS: "pass"
+        #    networks:
+        #      - bitcoin-net
+
+networks:
+  bitcoin-net:
+    driver: bridge
+
+volumes:
+  bitcoin-data:
+

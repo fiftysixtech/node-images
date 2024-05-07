@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  bitcoin-core:
+    image: bitcoin-core:27.0 #fiftysix/bitcoin-core:latest
+    container_name: bitcoin-core
+    ports:
+      - "8332:8332"
+      - "8333:8333"
+    volumes:
+      - bitcoin-data:/node
+    networks:
+      - bitcoin-net
+
+  ord:
+    image: ord:0.18.4 #fiftysix/ord:latest
+    command: ord --bitcoin-rpc-url http://bitcoin-core:8332 server
+    container_name: ord
+    ports:
+      - "8080:8080"
+      - "80:80"
+    depends_on:
+      - bitcoin-core
+    volumes:
+      - bitcoin-data:/node
+    networks:
+      - bitcoin-net
+
+networks:
+  bitcoin-net:
+    driver: bridge
+
+volumes:
+  bitcoin-data:
+
