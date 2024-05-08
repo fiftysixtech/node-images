@@ -141,3 +141,39 @@ curl -s -H "Accept: application/json" 'http://0.0.0.0:80/inscriptions'
 
 More documentation can be found on the official [Ordinals website](https://docs.ordinals.com/guides/explorer.html#json-api).
 
+## Ethereum
+
+There are multiple networks Ethereum can sync, including:
+- Ethereum mainnet
+- Goerli
+- Sepolia
+- Holesky
+- (custom network/network id)
+
+There are also numerous ways one can sync the Ethereum blockchain, in modes such as:
+- snap
+- full
+- light (currently unavailable with `geth`)
+
+More information on the different sync modes can be found on the [geth documentation website](https://geth.ethereum.org/docs/fundamentals/sync-modes).
+
+**The default Fiftysix Ethereum sync is for Ethereum mainnet, in snap sync mode. This gets the user an up-and-running Ethereum node in the quickest manner possible. For other configurations, review the compose files in the `/ethereum` directory.**
+
+### geth
+
+"Golang execution layer implementation of the Ethereum protocol." - [geth Github](https://github.com/ethereum/go-ethereum/tree/master) 
+
+#### JSON-RPC
+
+
+
+#### Websocket (WS)
+
+
+
+#### Flags and Configuration
+
+For more information on flags/config settings, visit the [geth flag documentation website](https://geth.ethereum.org/docs/fundamentals/command-line-options).
+
+### ...
+
