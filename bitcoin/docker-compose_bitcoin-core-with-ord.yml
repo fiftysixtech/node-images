@@ -6,7 +6,7 @@ services:
       - "8332:8332"
       - "8333:8333"
     volumes:
-      - bitcoin-data:/node
+      - bitcoin-core-data:/node/bitcoin-core
     networks:
       - bitcoin-net
 
@@ -19,8 +19,8 @@ services:
     depends_on:
       - bitcoin-core
     volumes:
-      - bitcoin-data:/node
-      - ord-data:/ord
+      - bitcoin-core-data:/node/bitcoin-core
+      - ord-data:/node/ord
     networks:
       - bitcoin-net
 
@@ -29,5 +29,5 @@ networks:
     driver: bridge
 
 volumes:
-  bitcoin-data:
+  bitcoin-core-data:
   ord-data:
