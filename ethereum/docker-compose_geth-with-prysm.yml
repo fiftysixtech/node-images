@@ -1,0 +1,51 @@
+services:
+  geth:
+    image: geth:1.14.2 #fiftysix/geth:latest
+    container_name: geth
+    command: >
+      geth
+      --mainnet
+      --syncmode "snap"
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+    volumes:
+      - geth-data:/node/geth
+    networks:
+      - ethereum-net
+
+  prysm:
+    image: gcr.io/prysmaticlabs/prysm/beacon-chain:stable
+    command: >
+      --accept-terms-of-use
+      --datadir=/node/prysm/data/
+      --jwt-secret=/node/geth/data/jwt.hex
+      --rpc-host=0.0.0.0
+      --grpc-gateway-host=0.0.0.0
+      --monitoring-host=0.0.0.0
+      --execution-endpoint=http://geth:8551
+      --checkpoint-sync-url=https://beaconstate.info
+      --genesis-beacon-api-url=https://beaconstate.info
+    container_name: prysm
+    ports:
+      - "3500:3500"
+      - "4000:4000"
+      - "12000:12000"
+      - "13000:13000"
+    depends_on:
+      - geth
+    volumes:
+      - geth-data:/node/geth
+      - prysm-data:/node/prysm
+    networks:
+      - ethereum-net
+
+networks:
+  ethereum-net:
+    driver: bridge
+
+volumes:
+  geth-data:
+  prysm-data:

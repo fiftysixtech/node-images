@@ -150,30 +150,54 @@ There are multiple networks Ethereum can sync, including:
 - Holesky
 - (custom network/network id)
 
-There are also numerous ways one can sync the Ethereum blockchain, in modes such as:
+There are also numerous ways one can sync the Ethereum blockchain's state (execution clients), in modes such as:
 - snap
 - full
+- archive
 - light (currently unavailable with `geth`)
 
 More information on the different sync modes can be found on the [geth documentation website](https://geth.ethereum.org/docs/fundamentals/sync-modes).
 
 **The default Fiftysix Ethereum sync is for Ethereum mainnet, in snap sync mode. This gets the user an up-and-running Ethereum node in the quickest manner possible. For other configurations, review the compose files in the `/ethereum` directory.**
 
-### geth
+### Execution Clients
+
+There are multiple clients that can be used to track Ethereum state. More information on the clients can be found on the [Ethereum official documentation](https://ethereum.org/en/developers/docs/nodes-and-clients/#execution-clients).
+
+#### geth
 
 "Golang execution layer implementation of the Ethereum protocol." - [geth Github](https://github.com/ethereum/go-ethereum/tree/master) 
 
-#### JSON-RPC
+##### JSON-RPC
 
+The default RPC port is 8545, and can be accessed using the following requests:
 
+```
+curl -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":83}' --url localhost:8545
+```
 
-#### Websocket (WS)
+A full list of RPC methods can be found on the [Ethereum website](https://ethereum.org/en/developers/docs/apis/json-rpc).
 
+##### Websocket (WS)
 
+The default WS port is 8546.
 
-#### Flags and Configuration
+##### Flags and Configuration
 
 For more information on flags/config settings, visit the [geth flag documentation website](https://geth.ethereum.org/docs/fundamentals/command-line-options).
 
-### ...
+#### ...
+
+...
+
+### Consensus Clients
+
+It is also required to run a client that implements Ethereum's proof-of-stake consensus algorithm, which enables the network to achieve agreement based on validated data from the execution client. More information on this can be found on the [Ethereum officil documentation](https://ethereum.org/en/developers/docs/nodes-and-clients/#consensus-clients).
+
+#### Prysm
+
+"Prysm: An Ethereum Consensus Implementation Written in Go" - [Prysm Github](https://github.com/prysmaticlabs/prysm)
+
+##### JSON-RPC
+
 
