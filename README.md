@@ -242,6 +242,18 @@ curl http://localhost:9596/eth/v1/node/version
 
 More information can be found on the [Lodestar documentation](https://chainsafe.github.io/lodestar/).
 
+#### Lighthouse
+
+"An open-source Ethereum consensus client, written in Rust and maintained by Sigma Prime." - [Lighthouse Github](https://github.com/sigp/lighthouse)
+
+##### REST API
+
+```
+curl http://localhost:5052/eth/v1/node/version
+```
+
+More information can be found on the [Lighthouse documentation](https://lighthouse-book.sigmaprime.io/api-bn.html).
+
 ## Other Resources
 
 ### Alternative Docker Images
