@@ -1,0 +1,56 @@
+services:
+  geth:
+    image: geth:1.14.2 #fiftysix/geth:latest
+    container_name: geth
+    command: >
+      geth
+      --mainnet
+      --syncmode "snap"
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+    volumes:
+      - geth-data:/node/geth
+    networks:
+      - ethereum-net
+
+  nimbus:
+    image: statusim/nimbus-eth2:amd64-latest
+    container_name: nimbus
+    user: root
+    ports:
+      - 9000:9000/tcp
+      - 9000:9000/udp
+      - 127.0.0.1:5052:5052/tcp
+      - 127.0.0.1:8008:8008/tcp
+    volumes:
+      - geth-data:/node/geth
+      - nimbus-data:/home/user/nimbus-eth2/build/data/
+    command: >-
+      --network=mainnet
+      --data-dir=/home/user/nimbus-eth2/build/data/
+      --jwt-secret=/node/geth/data/jwt.hex
+      --el=http://geth:8551
+      --log-level=info
+      --tcp-port=9000
+      --udp-port=9000
+      --rest
+      --rest-address=0.0.0.0
+      --rest-port=5052
+      --metrics
+      --metrics-address=0.0.0.0
+      --metrics-port=8008
+    depends_on:
+      - geth
+    networks:
+      - ethereum-net
+
+networks:
+  ethereum-net:
+    driver: bridge
+
+volumes:
+  geth-data:
+  nimbus-data:

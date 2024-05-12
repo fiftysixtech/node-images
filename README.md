@@ -198,18 +198,35 @@ It is also required to run a client that implements Ethereum's proof-of-stake co
 
 "Prysm: An Ethereum Consensus Implementation Written in Go" - [Prysm Github](https://github.com/prysmaticlabs/prysm)
 
-##### JSON-RPC
+##### REST API
+
+```
+http://127.0.0.1:3500/eth/v1/beacon/states/finalized/root
+```
+
+More information can be found on the [Prysm documentation website](https://docs.prylabs.network/docs/how-prysm-works/ethereum-public-api).
 
 #### Teku
 
-"" - [Teku Github]()
+"Teku is an open-source Ethereum consensus client written in Java and containing a full beacon node and validator client implementation." - [Teku Github](https://github.com/Consensys/teku)
 
-##### JSON-RPC
+##### REST API
 
-````
+```
 curl -I -X GET "http://192.10.10.101:5051/teku/v1/admin/liveness"
-````
+```
 
-https://consensys.github.io/teku/
+More information can be found on the [official Teku documentation](https://consensys.github.io/teku/).
 
+#### Nimbus
+
+"Nimbus-eth2 is an extremely efficient consensus layer (eth2) client implementation. While it's optimised for embedded systems and resource-restricted devices -- including Raspberry Pis, its low resource usage also makes it an excellent choice for any server or desktop." - [Nimbus Github](https://github.com/status-im/nimbus-eth2)
+
+##### REST API
+
+```
+curl -X GET http://localhost:5052/eth/v1/node/version
+```
+
+More information can be found on the [Nimbus documentation](https://nimbus.guide/rest-api.html#some-useful-commands).
 
