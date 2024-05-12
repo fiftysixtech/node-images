@@ -230,3 +230,25 @@ curl -X GET http://localhost:5052/eth/v1/node/version
 
 More information can be found on the [Nimbus documentation](https://nimbus.guide/rest-api.html#some-useful-commands).
 
+#### Lodestar
+
+"Lodestar is a TypeScript implementation of the Ethereum Consensus specification developed by ChainSafe Systems." - [Lodestar Github](https://github.com/ChainSafe/lodestar)
+
+##### REST API
+
+```
+curl http://localhost:9596/eth/v1/node/version
+```
+
+More information can be found on the [Lodestar documentation](https://chainsafe.github.io/lodestar/).
+
+## Other Resources
+
+### Alternative Docker Images
+
+#### Ethereum
+
+eth-docker:
+- [Documentation](https://eth-docker.net/)
+- [Github](https://github.com/eth-educators/eth-docker)
+
