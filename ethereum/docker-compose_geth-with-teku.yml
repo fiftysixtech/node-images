@@ -1,0 +1,48 @@
+services:
+  geth:
+    image: fiftysix/geth:latest
+    container_name: geth
+    command: >
+      geth
+      --mainnet
+      --syncmode "snap"
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+    volumes:
+      - geth-data:/node/geth
+    networks:
+      - ethereum-net
+        
+  teku:
+    image: consensys/teku:latest
+    user: root
+    command: [
+      "--ee-endpoint=http://geth:8551",
+      "--ee-jwt-secret-file=/node/geth/data/jwt.hex",
+      "--rest-api-enabled=true",
+      "--checkpoint-sync-url=https://beaconstate.ethstaker.cc",
+      "--data-path=/var/lib/teku/data",
+    ]
+    container_name: teku
+    ports:
+      - "5051:5051"
+      - "9000:9000/tcp"
+      - "9000:9000/udp"
+    depends_on:
+      - geth
+    volumes:
+      - geth-data:/node/geth
+      - teku-data:/var/lib/teku/data
+    networks:
+      - ethereum-net
+
+networks:
+  ethereum-net:
+    driver: bridge
+
+volumes:
+  geth-data:
+  teku-data:

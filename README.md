@@ -200,4 +200,16 @@ It is also required to run a client that implements Ethereum's proof-of-stake co
 
 ##### JSON-RPC
 
+#### Teku
+
+"" - [Teku Github]()
+
+##### JSON-RPC
+
+````
+curl -I -X GET "http://192.10.10.101:5051/teku/v1/admin/liveness"
+````
+
+https://consensys.github.io/teku/
+
 
