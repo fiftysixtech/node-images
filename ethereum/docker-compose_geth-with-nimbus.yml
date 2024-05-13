@@ -28,7 +28,7 @@ services:
     volumes:
       - geth-data:/node/geth
       - nimbus-data:/home/user/nimbus-eth2/build/data/
-    command: >-
+    command: >
       --network=mainnet
       --data-dir=/home/user/nimbus-eth2/build/data/
       --jwt-secret=/node/geth/data/jwt.hex
