@@ -1,0 +1,59 @@
+services:
+  nethermind:
+    image: nethermind:1.26.0
+    container_name: nethermind
+    command: >
+      nethermind
+      --datadir /node/nethermind/data
+      --JsonRpc.JwtSecretFile /node/nethermind/data/jwt.hex
+      --Init.WebSocketsEnabled "true"
+      --Network.MaxActivePeers "50"
+      --HealthChecks.Enabled "true"
+      --HealthChecks.UIEnabled "true"
+      --JsonRpc.Enabled "true"
+      --JsonRpc.Host "0.0.0.0"
+      --JsonRpc.Port "8545"
+      --JsonRpc.WebSocketsPort "8546"
+      --JsonRpc.EngineHost "0.0.0.0"
+      --JsonRpc.EnginePort "8551"
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "8551:8551"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+    volumes:
+      - nethermind-data:/node/nethermind
+    networks:
+      - ethereum-net
+
+  teku:
+    image: consensys/teku:latest
+    user: root
+    command: [
+      "--ee-endpoint=http://nethermind:8551",
+      "--ee-jwt-secret-file=/node/nethermind/data/jwt.hex",
+      "--rest-api-enabled=true",
+      "--checkpoint-sync-url=https://beaconstate.ethstaker.cc",
+      "--data-path=/var/lib/teku/data",
+    ]
+    container_name: teku
+    ports:
+      - "5051:5051"
+      - "9000:9000/tcp"
+      - "9000:9000/udp"
+    depends_on:
+      - nethermind
+    volumes:
+      - nethermind-data:/node/nethermind
+      - teku-data:/var/lib/teku/data
+    networks:
+      - ethereum-net
+
+networks:
+  ethereum-net:
+    driver: bridge
+
+volumes:
+  nethermind-data:
+  teku-data:
