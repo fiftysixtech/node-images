@@ -1,0 +1,48 @@
+services:
+  besu:
+    image: besu:24.5.1
+    container_name: besu
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "8551:8551"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+    volumes:
+      - besu-data:/node/besu
+    networks:
+      - ethereum-net
+
+  lighthouse:
+    image: sigp/lighthouse
+    container_name: lighthouse
+    volumes:
+      - besu-data:/node/besu
+      - lighthouse-data:/root/.lighthouse
+    ports:
+      - "9000:9000/tcp"
+      - "9000:9000/udp"
+      - "9001:9001/udp"
+      - "5052:5052"
+    depends_on:
+      - besu
+    command: >
+      lighthouse
+      bn
+      --network mainnet
+      --execution-endpoint http://besu:8551
+      --execution-jwt /node/besu/data/jwt.hex
+      --checkpoint-sync-url https://beaconstate.ethstaker.cc
+      --http
+      --http-address 0.0.0.0
+      --disable-deposit-contract-sync
+    networks:
+      - ethereum-net
+
+networks:
+  ethereum-net:
+    driver: bridge
+
+volumes:
+  besu-data:
+  lighthouse-data:
