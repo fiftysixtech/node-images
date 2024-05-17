@@ -40,11 +40,9 @@ RUN apt install libjemalloc-dev -y \
 COPY "entrypoint.sh" "${SCRIPTS_DIR}/besu-entrypoint.sh"
 COPY "config.toml" "${CONFIGS_DIR}/config.toml"
 
-WORKDIR /node/besu
-
 EXPOSE 8545 8546 8551 30303 30303/udp
 
 VOLUME ["/node/besu"]
 
 ENTRYPOINT ["/node/besu/scripts/besu-entrypoint.sh"]
-CMD ["data/bin/besu"]
+CMD ["besu"]
