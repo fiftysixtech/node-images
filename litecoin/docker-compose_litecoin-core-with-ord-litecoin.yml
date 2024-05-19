@@ -1,0 +1,39 @@
+services:
+  litecoin-core:
+    image: litecoin-core:0.21.3 #fiftysix/litecoin-core:latest
+    container_name: litecoin-core
+    command: >
+      --rpcuser=user
+      --rpcpassword=pass
+      --rpcbind=0.0.0.0
+      --rpcallowip=0.0.0.0/0
+    ports:
+      - "9332:9332"
+      - "9333:9333"
+    volumes:
+      - litecoin-core-data:/node/litecoin-core
+    networks:
+      - litecoin-net
+
+  ord-litecoin:
+    image: ord-litecoin:0.18.3 #fiftysix/ord-litecoin:latest
+    command: ord --litecoin-rpc-url http://litecoin-core:9332 --litecoin-rpc-username user --litecoin-rpc-password pass server
+    container_name: ord-litecoin
+    ports:
+      - "80:80"
+    depends_on:
+      - litecoin-core
+    volumes:
+      - litecoin-core-data:/node/litecoin-core
+      - ord-litecoin-data:/node/ord-litecoin
+    networks:
+      - litecoin-net
+
+networks:
+  litecoin-net:
+    driver: bridge
+
+volumes:
+  litecoin-core-data:
+  ord-litecoin-data:
+

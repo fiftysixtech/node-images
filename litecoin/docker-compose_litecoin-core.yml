@@ -1,0 +1,24 @@
+services:
+  litecoin-core:
+    image: litecoin-core:0.21.3 #fiftysix/litecoin-core:latest
+    container_name: litecoin-core
+    command: >
+      --rpcuser=user
+      --rpcpassword=pass
+      --rpcbind=0.0.0.0
+      --rpcallowip=0.0.0.0/0
+    ports:
+      - "9332:9332"
+      - "9333:9333"
+    volumes:
+      - litecoin-core-data:/node/litecoin-core
+    networks:
+      - litecoin-net
+
+networks:
+  litecoin-net:
+    driver: bridge
+
+volumes:
+  litecoin-core-data:
+
