@@ -1,0 +1,24 @@
+services:
+  dogecoin-core:
+    image: dogecoin-core:1.14.7 #fiftysix/dogecoin-core:latest
+    container_name: dogecoin-core
+    command: >
+      --rpcuser=user
+      --rpcpassword=pass
+      --rpcbind=0.0.0.0
+      --rpcallowip=0.0.0.0/0
+    ports:
+      - "22555:22555"
+      - "22556:22556"
+    volumes:
+      - dogecoin-core-data:/node/dogecoin-core
+    networks:
+      - dogecoin-net
+
+networks:
+  dogecoin-net:
+    driver: bridge
+
+volumes:
+  dogecoin-core-data:
+

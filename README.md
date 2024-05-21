@@ -20,4 +20,5 @@ For information on:
 - [Bitcoin Dockerfiles and Compose files](./docs/bitcoin.md)
 - [Ethereum Dockerfiles and Compose files](./docs/ethereum.md)
 - [Litecoin Dockerfiles and Compose files](./docs/litecoin.md)
+- [Dogecoin Dockerfiles and Compose files](./docs/dogecoin.md)
 
