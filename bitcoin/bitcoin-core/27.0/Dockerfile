@@ -27,8 +27,6 @@ RUN mkdir -p "${CONFIGS_DIR}" \
 COPY "entrypoint.sh" "${SCRIPTS_DIR}/bitcoin-core-entrypoint.sh"
 COPY "config.conf" "${CONFIGS_DIR}/config.conf"
 
-EXPOSE 8332 18332 18443 8333 18333 18444
-
 VOLUME ["/node/bitcoin-core"]
 
 ENTRYPOINT ["/node/bitcoin-core/scripts/bitcoin-core-entrypoint.sh"]
