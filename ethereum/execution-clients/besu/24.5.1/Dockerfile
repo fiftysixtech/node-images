@@ -6,7 +6,7 @@ LABEL description="Ethereum Besu client built using the Fiftysix base image"
 # Install Java
 ENV JAVA_VERSION=22
 ENV JAVA_PATH_VERSION=22.0.1
-ENV JAVA_URL=https://download.oracle.com/java/${JAVA_VERSION}/latest/jdk-${JAVA_VERSION}_linux-x64_bin.tar.gz
+ENV JAVA_URL=https://download.oracle.com/java/${JAVA_VERSION}/archive/jdk-${JAVA_PATH_VERSION}_linux-x64_bin.tar.gz
 ENV JAVA_HOME=/usr/local/java/jdk-$JAVA_PATH_VERSION
 ENV PATH="$JAVA_HOME/bin:$PATH"
 
