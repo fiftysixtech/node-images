@@ -1,0 +1,12 @@
+# see `ord --help` for setting documentation
+
+litecoin_data_dir: /node/litecoin-core/data/
+#cookie_file: /node/litecoin-core/data/.cookie
+server_url: http://localhost:80
+chain: mainnet
+config: /node/ord-litecoin/configs/ord-litecoin.yaml
+data_dir: /node/ord-litecoin/data/
+index_runes: true
+index_sats: true
+index_spent_sats: true
+index_transactions: true
