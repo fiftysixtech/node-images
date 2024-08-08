@@ -5,8 +5,9 @@ LABEL description="Ethereum Nethermind client built using the Fiftysix base imag
 
 # Build Nethermind
 ENV NETHERMIND_VERSION="1.26.0"
+ENV NETHERMIND_COMMIT_HASH="0068729c"
 ENV TARBALL_NAME="nethermind-${NETHERMIND_VERSION}"
-ENV BINARY_URL="https://github.com/NethermindEth/nethermind/releases/download/${NETHERMIND_VERSION}/${TARBALL_NAME}-0068729c-linux-x64.zip"
+ENV BINARY_URL="https://github.com/NethermindEth/nethermind/releases/download/${NETHERMIND_VERSION}/${TARBALL_NAME}-${NETHERMIND_COMMIT_HASH}-linux-x64.zip"
 
 ENV ROOT_DIR="/node/nethermind"
 ENV TMP_DIR="/var/tmp"
