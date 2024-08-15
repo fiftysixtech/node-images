@@ -1,6 +1,6 @@
 ## Installing Docker and Docker Compose
 
-In order to run Fiftysix blockchain node images, Docker and Docker Compose is required. Below is a guide on how to install both on different operating systems.
+In order to run Fiftysix blockchain node images, Docker and Docker Compose is required.
 
 ### Ubuntu (22.04) -- Installing Docker and Docker Compose
 
@@ -78,4 +78,3 @@ Logs can be tracked directly by running:
 ```
 docker logs <container-name>
 ```
-
