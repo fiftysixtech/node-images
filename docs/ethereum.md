@@ -160,4 +160,3 @@ More information can be found on the [Lighthouse documentation](https://lighthou
 eth-docker:
 - [Documentation](https://eth-docker.net/)
 - [Github](https://github.com/eth-educators/eth-docker)
-

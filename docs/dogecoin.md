@@ -15,4 +15,3 @@ curl --data-binary '{"jsonrpc": "1.0", "id": "curltest", "method": "getblockcoun
 More documentation can be found on the official [Dogecoin Core Github](https://github.com/dogecoin/dogecoin).
 
 Further information can be found on the official [Dogecoin website](https://dogecoin.com/).
-

@@ -35,4 +35,3 @@ curl -s -H "Accept: application/json" 'http://0.0.0.0:80/inscriptions'
 ```
 
 More documentation can be found on the official [Ordinals website](https://docs.ordinals.com/guides/explorer.html#json-api), or on the official [ord-litecoin Github repository](https://github.com/ynohtna92/ord-litecoin).
-
