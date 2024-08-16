@@ -4,9 +4,9 @@ This repository holds information and node images for each of the blockchains su
 
 ## Blockchain Sync
 
-- [Blockchain Best Practices](./docs/blockchain-info.md)
-- [Blockchain Requirements](./docs/blockchain-info.md)
-- [Blockchain Sync Timing](./docs/blockchain-info.md)
+- [Blockchain Best Practices](./docs/blockchain-info.md#blockchain-best-practices)
+- [Blockchain Requirements](./docs/blockchain-info.md#blockchain-requirements-and-sync-time)
+- [Blockchain Sync Timing](./docs/blockchain-info.md#blockchain-requirements-and-sync-time)
 
 ## Installing Docker
 

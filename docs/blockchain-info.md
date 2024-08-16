@@ -28,12 +28,12 @@ The table below outlines the specific hardware, storage, and network requirement
 
 | Blockchain                | CPU                | RAM                    | Storage                | Sync Time             | Bandwidth            | Network Port         |
 |---------------------------|--------------------|------------------------|------------------------|-----------------------|----------------------|----------------------|
-| **[Bitcoin (BTC)](https://hub.docker.com/r/fiftysix/bitcoin-core)**          | Dual-core 2.0 GHz  | 8 GB min, 16 GB rec.   | ~600 GB            | ~5-7 days             | 200-500 GB/month     | 8333                 |
-| **[Bitcoin with Ord](https://hub.docker.com/r/fiftysix/ord)**       | Dual-core 2.0 GHz  | 8 GB min, 16 GB rec.   | ~1 TB              | ~8-10 days            | 200-500 GB/month     | 80 (configurable), 8333 |
-| **[Ethereum (ETH)](https://hub.docker.com/r/fiftysix/geth)**         | Quad-core 2.5 GHz  | 16 GB min, 32 GB rec.  | ~1 TB (10 TB+ for archive) | 7-14 days | 500 GB - 1.5 TB/month | 30303                |
-| **[Dogecoin (DOGE)](https://hub.docker.com/r/fiftysix/dogecoin-core)**        | Dual-core 2.0 GHz  | 4 GB min, 8 GB rec.    | ~100 GB           | 2-4 days              | 100-300 GB/month     | 22556                |
-| **[Litecoin (LTC](https://hub.docker.com/r/fiftysix/litecoin-core))**         | Dual-core 2.0 GHz  | 8 GB min               | ~200 GB           | 2-4 days              | 150-400 GB/month     | 9333                 |
-| **[Litecoin with Ord-Litecoin](https://hub.docker.com/r/fiftysix/ord-litecoin)** | Dual-core 2.0 GHz | 8 GB min             | ~300 GB           | 3-5 days              | 150-400 GB/month     | 80 (configurable), 9333 |
+| **[Bitcoin](https://hub.docker.com/r/fiftysix/bitcoin-core)**          | Dual-core 2.0 GHz  | 8 GB min, 16 GB rec.   | ~600 GB            | ~5-7 days             | 200-500 GB/month     | 8333                 |
+| **[Bitcoin w/ Ord](https://hub.docker.com/r/fiftysix/ord)**       | Dual-core 2.0 GHz  | 8 GB min, 16 GB rec.   | ~1 TB              | ~8-10 days            | 200-500 GB/month     | 80 (configurable), 8333 |
+| **[Ethereum](https://hub.docker.com/r/fiftysix/geth)**         | Quad-core 2.5 GHz  | 16 GB min, 32 GB rec.  | ~1 TB (10 TB+ for archive) | 7-14 days | 500 GB - 1.5 TB/month | 30303                |
+| **[Dogecoin](https://hub.docker.com/r/fiftysix/dogecoin-core)**        | Dual-core 2.0 GHz  | 4 GB min, 8 GB rec.    | ~100 GB           | 2-4 days              | 100-300 GB/month     | 22556                |
+| **[Litecoin](https://hub.docker.com/r/fiftysix/litecoin-core)**         | Dual-core 2.0 GHz  | 8 GB min               | ~200 GB           | 2-4 days              | 150-400 GB/month     | 9333                 |
+| **[Litecoin w/ Ord-Litecoin](https://hub.docker.com/r/fiftysix/ord-litecoin)** | Dual-core 2.0 GHz | 8 GB min             | ~300 GB           | 3-5 days              | 150-400 GB/month     | 80 (configurable), 9333 |
 
 **Notes:**
 
