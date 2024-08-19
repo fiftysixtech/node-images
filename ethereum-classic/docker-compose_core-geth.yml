@@ -1,0 +1,23 @@
+services:
+  core-geth:
+    image: core-geth:1.12.19 #fiftysix/core-geth:latest
+    container_name: core-geth
+    command: >
+      geth
+      --classic
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+    volumes:
+      - core-geth-data:/node/core-geth
+    networks:
+      - ethereum-classic-net
+
+networks:
+  ethereum-classic-net:
+    driver: bridge
+
+volumes:
+  core-geth-data:
