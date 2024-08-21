@@ -1,6 +1,6 @@
 # Fiftysix Blockchain Node Images
 
-Welcome to the Fiftysix Blockchain Node Images repository. This repository provides Docker images and comprehensive documentation for running blockchain nodes across various networks such as [Bitcoin](https://hub.docker.com/r/fiftysix/bitcoin-core), [Ethereum](https://hub.docker.com/r/fiftysix/geth), [Dogecoin](https://hub.docker.com/r/fiftysix/dogecoin-core), [Litecoin](https://hub.docker.com/r/fiftysix/litecoin-core), and more (including [ord](https://hub.docker.com/r/fiftysix/ord) and [ord-litecoin](https://hub.docker.com/r/fiftysix/ord-litecoin) support).
+Welcome to the Fiftysix Blockchain Node Images repository. This repository provides Docker images and comprehensive documentation for running blockchain nodes across various networks such as [Bitcoin](https://hub.docker.com/r/fiftysix/bitcoin-core), [Ethereum](https://hub.docker.com/r/fiftysix/geth), [Dogecoin](https://hub.docker.com/r/fiftysix/dogecoin-core), [Litecoin](https://hub.docker.com/r/fiftysix/litecoin-core), [Ethereum Classic](https://hub.docker.com/r/fiftysix/core-geth), and more (including [ord](https://hub.docker.com/r/fiftysix/ord) and [ord-litecoin](https://hub.docker.com/r/fiftysix/ord-litecoin) support).
 
 ## Overview
 
@@ -22,10 +22,13 @@ Before running any blockchain nodes, you'll need to have Docker installed on you
 
 Our repository offers Dockerfiles and Docker Compose files specifically tailored for each blockchain. These files simplify the process of deploying nodes, allowing you to start and manage blockchain nodes with ease.
 
-- [Bitcoin Dockerfiles and Compose files](./docs/bitcoin.md)
-- [Ethereum Dockerfiles and Compose files](./docs/ethereum.md)
-- [Litecoin Dockerfiles and Compose files](./docs/litecoin.md)
-- [Dogecoin Dockerfiles and Compose files](./docs/dogecoin.md)
+### Dockerfiles and Compose files
+
+- [Bitcoin](./docs/bitcoin.md)
+- [Ethereum](./docs/ethereum.md)
+- [Litecoin](./docs/litecoin.md)
+- [Dogecoin](./docs/dogecoin.md)
+- [Ethereum Classic](./docs/ethereum-classic.md)
 
 ## Getting Started
 
