@@ -1,0 +1,11 @@
+# see `ord --help` for setting documentation
+
+bitcoin_data_dir: /node/bitcoin-core/data/
+cookie_file: /node/bitcoin-core/data/.cookie
+server_url: http://localhost:80
+chain: mainnet
+config: /node/ord/configs/ord.yaml
+data_dir: /node/ord/data/
+index_runes: true
+index_sats: true
+index_transactions: true
