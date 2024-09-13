@@ -8,5 +8,4 @@ config: /node/ord-litecoin/configs/ord-litecoin.yaml
 data_dir: /node/ord-litecoin/data/
 index_runes: true
 index_sats: true
-index_spent_sats: true
 index_transactions: true
