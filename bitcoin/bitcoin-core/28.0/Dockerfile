@@ -1,9 +1,10 @@
-FROM fiftysix/node-base:0.1.2
+FROM fiftysix/node-base:0.2.0
 
 LABEL maintainer="nodes@fiftysix.xyz"
 LABEL description="Bitcoin core client built using the Fiftysix base image"
 
 ARG TARGETPLATFORM
+
 ENV NODE_VERSION="28.0"
 ENV TARBALL_NAME="bitcoin-${NODE_VERSION}"
 ENV ROOT_DIR="/node/bitcoin-core"
