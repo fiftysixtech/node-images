@@ -1,0 +1,20 @@
+services:
+  kubo:
+    image: fiftysix/kubo:latest
+    container_name: kubo
+    command: ipfs daemon
+    volumes:
+      - ipfs-data:/node/ipfs
+    ports:
+      - "4001:4001"
+      - "5001:5001"
+      - "8080:8080"
+    networks:
+      - ipfs-net
+
+networks:
+  ipfs-net:
+    driver: bridge
+
+volumes:
+  ipfs-data:
