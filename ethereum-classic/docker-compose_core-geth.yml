@@ -1,6 +1,6 @@
 services:
   core-geth:
-    image: core-geth:1.12.19 #fiftysix/core-geth:latest
+    image: fiftysix/core-geth:latest
     container_name: core-geth
     command: >
       geth

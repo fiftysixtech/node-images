@@ -1,6 +1,6 @@
 services:
   litecoin-core:
-    image: litecoin-core:0.21.3 #fiftysix/litecoin-core:latest
+    image: fiftysix/litecoin-core:latest
     container_name: litecoin-core
     command: >
       --rpcuser=user
@@ -16,7 +16,7 @@ services:
       - litecoin-net
 
   ord-litecoin:
-    image: ord-litecoin:0.18.3 #fiftysix/ord-litecoin:latest
+    image: fiftysix/ord-litecoin:latest
     command: ord --litecoin-rpc-url http://litecoin-core:9332 --litecoin-rpc-username user --litecoin-rpc-password pass server
     container_name: ord-litecoin
     ports:

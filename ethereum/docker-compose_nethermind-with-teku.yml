@@ -1,6 +1,6 @@
 services:
   nethermind:
-    image: nethermind:1.26.0
+    image: fiftysix/nethermind:latest
     container_name: nethermind
     command: >
       nethermind

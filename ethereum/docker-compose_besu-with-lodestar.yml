@@ -1,6 +1,6 @@
 services:
   besu:
-    image: besu:24.5.1
+    image: fiftysix/besu:latest
     container_name: besu
     ports:
       - "8545:8545"

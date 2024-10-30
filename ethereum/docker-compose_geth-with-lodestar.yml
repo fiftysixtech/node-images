@@ -1,6 +1,6 @@
 services:
   geth:
-    image: geth:1.14.2 #fiftysix/geth:latest
+    image: fiftysix/geth:latest
     container_name: geth
     command: >
       geth
