@@ -1,0 +1,41 @@
+services:
+  kubo:
+    image: fiftysix/kubo:latest
+    container_name: kubo
+    command: ipfs daemon
+    volumes:
+      - ipfs-data:/node/ipfs
+    environment:
+      IPFS_PATH: "/node/ipfs"
+    ports:
+      - "4001:4001"
+      - "5001:5001"
+      - "8080:8080"
+    networks:
+      - ipfs-net
+
+  ipfs-cluster:
+    image: fiftysix/ipfs-cluster:latest
+    container_name: ipfs-cluster
+    #environment:
+      #IPFS_CLUSTER_PATH: "/node/ipfs-cluster"
+      #CLUSTER_PEERNAME: "cluster-peer-1"
+      #CLUSTER_SECRET: "your-cluster-secret"  # replace with your secure key
+      #CLUSTER_BOOTSTRAP: "/ip4/192.168.1.100/tcp/9096/p2p/QmBootstrapPeerID" # replace with your peer address
+    volumes:
+      - cluster-data:/node/ipfs-cluster
+    ports:
+      - "9094:9094"
+      - "9096:9096"
+    depends_on:
+      - kubo
+    networks:
+      - ipfs-net
+
+networks:
+  ipfs-net:
+    driver: bridge
+
+volumes:
+  ipfs-data:
+  cluster-data:
