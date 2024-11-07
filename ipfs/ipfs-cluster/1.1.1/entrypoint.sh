@@ -3,11 +3,17 @@ set -e
 
 chown -R nodeuser "${ROOT_DIR}"
 
-# Initialize the IPFS Cluster service with environment variables or defaults
-if [ ! -f "${DATA_DIR}/service.json" ]; then
-  echo "Initializing IPFS Cluster configuration..."
-  # Substitute environment variables into the configuration template
-  cat <<EOF > ${CONFIGS_DIR}/service.json
+if [ "$(echo "$1" | cut -c1)" = "-" ]; then
+  set -- ipfs-cluster-service daemon "$@"
+fi
+
+# Default behavior for IPFS Cluster if no command is provided
+if [ "$1" = "ipfs-cluster-service" ]; then
+  # Initialize the IPFS Cluster service if configuration does not exist
+  if [ ! -f "${DATA_DIR}/service.json" ]; then
+    echo "Initializing IPFS Cluster configuration..."
+    # Substitute environment variables into the configuration template
+    cat <<EOF > ${CONFIGS_DIR}/service.json
 {
   "cluster": {
     "id": "",
@@ -31,16 +37,21 @@ if [ ! -f "${DATA_DIR}/service.json" ]; then
 }
 EOF
 
-  # Initialize IPFS Cluster with the generated configuration file
-  gosu nodeuser ipfs-cluster-service init
+    gosu nodeuser ipfs-cluster-service init
+  fi
+
+  # If a bootstrap address is provided, join the cluster
+  if [ -n "${CLUSTER_BOOTSTRAP}" ]; then
+    echo "Bootstrapping to ${CLUSTER_BOOTSTRAP}..."
+    set -- "$@" --bootstrap "${CLUSTER_BOOTSTRAP}"
+  else
+    echo "Starting IPFS Cluster in standalone daemon mode..."
+  fi
 fi
 
-# If a bootstrap address is provided, join the cluster
-if [ -n "${CLUSTER_BOOTSTRAP}" ]; then
-  echo "Bootstrapping to ${CLUSTER_BOOTSTRAP}..."
-  exec gosu nodeuser ipfs-cluster-service daemon --bootstrap "${CLUSTER_BOOTSTRAP}"
+# Run the specified command
+if [ "$1" = "ipfs-cluster-service" ]; then
+  exec gosu nodeuser "$@"
 else
-  # Start IPFS Cluster service as a standalone node
-  echo "Starting IPFS Cluster in daemon mode..."
-  exec gosu nodeuser ipfs-cluster-service daemon
+  exec "$@"
 fi
