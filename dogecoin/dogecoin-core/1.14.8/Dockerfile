@@ -30,7 +30,7 @@ RUN mkdir -p "${CONFIGS_DIR}" \
 COPY "entrypoint.sh" "${SCRIPTS_DIR}/dogecoin-core-entrypoint.sh"
 COPY "config.conf" "${CONFIGS_DIR}/config.conf"
 
-EXPOSE 9332 9333 19332 19333 19444
+EXPOSE 22555 22556 44555 44556
 
 VOLUME ["/node/dogecoin-core"]
 
