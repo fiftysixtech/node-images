@@ -1,0 +1,11 @@
+data-path="/node/besu/data"
+engine-jwt-secret="/node/besu/data/jwt.hex"
+engine-host-allowlist=["*"]
+engine-rpc-enabled=true
+engine-rpc-port="8551"
+rpc-http-enabled=true
+rpc-http-port="8545"
+rpc-http-host="0.0.0.0"
+rpc-ws-enabled=true
+rpc-ws-port="8546"
+rpc-ws-host="0.0.0.0"
