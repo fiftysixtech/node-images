@@ -1,0 +1,22 @@
+[Node]
+DataDir = "/node/core-geth/data/"
+IPCPath = "/node/core-geth/data/geth.ipc"
+HTTPHost = "0.0.0.0"
+HTTPPort = 8545
+HTTPVirtualHosts = ["*"]
+HTTPModules = ["net", "web3", "eth", "engine"]
+WSHost = "0.0.0.0"
+WSPort = 8546
+WSOrigins = ["*"]
+WSModules = ["net", "web3", "eth", "engine"]
+
+[Node.P2P]
+MaxPeers = 50
+NoDiscovery = false
+ListenAddr = ":30303"
+
+#[Dashboard]
+#Host = "localhost"
+#Port = 8080
+#Refresh = 5000000000
+
