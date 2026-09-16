@@ -6,8 +6,9 @@ LABEL description="Ethereum erigon client built using the Fiftysix base image"
 # Install erigon
 ENV ERIGON_VERSION="3.6.1"
 ENV TARBALL_NAME="erigon_v${ERIGON_VERSION}_linux_amd64"
-ENV BINARY_URL="https://github.com/erigontech/erigon/releases/download/v${ERIGON_VERSION}/${TARBALL_NAME}.tar.gz"
-ENV BINARY_SHA256="175ee2eaea718d52d4226903d84faa8b5fbeac98b2504d352db03a512f5418e4"
+ENV RELEASE_URL="https://github.com/erigontech/erigon/releases/download/v${ERIGON_VERSION}"
+ENV BINARY_URL="${RELEASE_URL}/${TARBALL_NAME}.tar.gz"
+ENV CHECKSUMS_URL="${RELEASE_URL}/erigon_v${ERIGON_VERSION}_checksums.txt"
 
 ENV ROOT_DIR="/node/erigon"
 ENV TMP_DIR="/var/tmp"
@@ -15,11 +16,16 @@ ENV CONFIGS_DIR="${ROOT_DIR}/configs"
 ENV SCRIPTS_DIR="${ROOT_DIR}/scripts"
 ENV DATA_DIR="${ROOT_DIR}/data"
 
+# The erigon release checksum is fetched and verified at build time (rather
+# than pinned as a literal ENV) so that bumping ERIGON_VERSION alone is
+# always sufficient - no separate checksum update step to keep in sync.
 RUN mkdir -p "${CONFIGS_DIR}" \
     && mkdir -p "${SCRIPTS_DIR}" \
     && mkdir -p "${DATA_DIR}" \
     && curl -L "${BINARY_URL}" -o "${TMP_DIR}/${TARBALL_NAME}.tar.gz" \
-    && echo "${BINARY_SHA256}  ${TMP_DIR}/${TARBALL_NAME}.tar.gz" | sha256sum -c \
+    && curl -L "${CHECKSUMS_URL}" -o "${TMP_DIR}/checksums.txt" \
+    && grep -E " ${TARBALL_NAME}\.tar\.gz\$" "${TMP_DIR}/checksums.txt" > "${TMP_DIR}/checksum.txt" \
+    && (cd "${TMP_DIR}" && sha256sum -c checksum.txt) \
     && tar -xzf "${TMP_DIR}/${TARBALL_NAME}.tar.gz" -C "${TMP_DIR}" "${TARBALL_NAME}/erigon" \
     && mv "${TMP_DIR}/${TARBALL_NAME}/erigon" /usr/bin/erigon \
     && rm -rf "${TMP_DIR}"/* /tmp/* /var/lib/apt/lists/* \
