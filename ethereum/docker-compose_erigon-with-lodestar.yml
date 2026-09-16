@@ -1,0 +1,56 @@
+services:
+  erigon:
+    image: fiftysix/erigon:latest
+    container_name: erigon
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "8551:8551"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+      - "42069:42069/tcp"
+      - "42069:42069/udp"
+    volumes:
+      - erigon-data:/node/erigon
+    networks:
+      - ethereum-net
+
+  lodestar:
+    image: chainsafe/lodestar:next
+    container_name: lodestar
+    volumes:
+      - erigon-data:/node/erigon
+      - lodestar-data:/data
+    ports:
+      - "9000:9000" # P2P port
+      - "9596:9596" # REST API port
+    depends_on:
+      - erigon
+    command: >
+      beacon
+      --network mainnet
+      --execution.urls http://erigon:8551
+      --dataDir /data
+      --rest
+      --rest.address 0.0.0.0
+      --jwtSecret /node/erigon/data/jwt.hex
+      --metrics
+      --logFile /logs/beacon.log
+      --logFileLevel debug
+      --logFileDailyRotate 5
+      --checkpointSyncUrl https://beaconstate.ethstaker.cc
+    # NodeJS applications have a default memory limit of 4GB on most machines.
+    # This limit is bit tight for a Mainnet node, it is recommended to raise the limit
+    # since memory may spike during certain network conditions.
+    environment:
+      NODE_OPTIONS: --max-old-space-size=8192
+    networks:
+      - ethereum-net
+
+networks:
+  ethereum-net:
+    driver: bridge
+
+volumes:
+  erigon-data:
+  lodestar-data:

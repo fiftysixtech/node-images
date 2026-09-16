@@ -1,0 +1,50 @@
+services:
+  erigon:
+    image: fiftysix/erigon:latest
+    container_name: erigon
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "8551:8551"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+      - "42069:42069/tcp"
+      - "42069:42069/udp"
+    volumes:
+      - erigon-data:/node/erigon
+    networks:
+      - ethereum-net
+
+  lighthouse:
+    image: sigp/lighthouse
+    container_name: lighthouse
+    volumes:
+      - erigon-data:/node/erigon
+      - lighthouse-data:/root/.lighthouse
+    ports:
+      - "9000:9000/tcp"
+      - "9000:9000/udp"
+      - "9001:9001/udp"
+      - "5052:5052"
+    depends_on:
+      - erigon
+    command: >
+      lighthouse
+      bn
+      --network mainnet
+      --execution-endpoint http://erigon:8551
+      --execution-jwt /node/erigon/data/jwt.hex
+      --checkpoint-sync-url https://beaconstate.ethstaker.cc
+      --http
+      --http-address 0.0.0.0
+      --disable-deposit-contract-sync
+    networks:
+      - ethereum-net
+
+networks:
+  ethereum-net:
+    driver: bridge
+
+volumes:
+  erigon-data:
+  lighthouse-data:

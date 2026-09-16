@@ -1,0 +1,47 @@
+services:
+  erigon:
+    image: fiftysix/erigon:latest
+    container_name: erigon
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "8551:8551"
+      - "30303:30303/tcp"
+      - "30303:30303/udp"
+      - "42069:42069/tcp"
+      - "42069:42069/udp"
+    volumes:
+      - erigon-data:/node/erigon
+    networks:
+      - ethereum-net
+
+  teku:
+    image: consensys/teku:latest
+    user: root
+    command: [
+      "--ee-endpoint=http://erigon:8551",
+      "--ee-jwt-secret-file=/node/erigon/data/jwt.hex",
+      "--rest-api-enabled=true",
+      "--checkpoint-sync-url=https://beaconstate.ethstaker.cc",
+      "--data-path=/var/lib/teku/data",
+    ]
+    container_name: teku
+    ports:
+      - "5051:5051"
+      - "9000:9000/tcp"
+      - "9000:9000/udp"
+    depends_on:
+      - erigon
+    volumes:
+      - erigon-data:/node/erigon
+      - teku-data:/var/lib/teku/data
+    networks:
+      - ethereum-net
+
+networks:
+  ethereum-net:
+    driver: bridge
+
+volumes:
+  erigon-data:
+  teku-data:
