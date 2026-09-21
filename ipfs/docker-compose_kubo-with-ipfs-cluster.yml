@@ -9,8 +9,11 @@ services:
       IPFS_PATH: "/node/ipfs"
     ports:
       - "4001:4001"
-      - "5001:5001"
-      - "8080:8080"
+      # The RPC API has admin-level access to the node: keep it (and the
+      # gateway) on the host's loopback interface unless you have put
+      # authentication or a firewall in front of them.
+      - "127.0.0.1:5001:5001"
+      - "127.0.0.1:8080:8080"
     networks:
       - ipfs-net
 
