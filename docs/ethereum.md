@@ -251,13 +251,33 @@ For more information on flags/config settings, run `teku --help` or visit the [T
 
 "Nimbus-eth2 is an extremely efficient consensus layer (eth2) client implementation. While it's optimised for embedded systems and resource-restricted devices -- including Raspberry Pis, its low resource usage also makes it an excellent choice for any server or desktop." - [Nimbus Github](https://github.com/status-im/nimbus-eth2)
 
+Like Lighthouse/Prysm/Teku, Nimbus can't run standalone and requires pairing with an execution client - see [Pairing with an execution client](#pairing-with-an-execution-client) under Lighthouse above for the general JWT-sharing approach; here it's `--el`/`--jwt-secret`. Unlike those three, Nimbus doesn't hard-refuse to sync from genesis - it just starts syncing and reports its own health via the REST API (`el_offline: false` once it has successfully connected to and authenticated with the paired execution client - confirmed end-to-end locally against `fiftysix/reth`).
+
+**Two real, non-obvious CLI quirks found while building this image, worth knowing before extending it:**
+- Nimbus's (Nim/confutils) CLI only accepts `--flag=value` - a space-separated `--flag value` is silently misparsed as two separate tokens and fails with a confusing `does not accept arguments` error. Every flag passed to this image, including overrides, must use `=`.
+- Unlike Reth/Lighthouse/Teku's CLI (which errors on a duplicated flag), Nimbus's CLI tolerates being passed the same flag twice and uses the last occurrence, so - like Prysm - the entrypoint's defaults are simply prepended rather than needing conditional logic.
+
 ##### REST API
+
+The default REST API port is 5052, and can be accessed using the following requests:
 
 ```
 curl -X GET http://localhost:5052/eth/v1/node/version
 ```
 
 More information can be found on the [Nimbus documentation](https://nimbus.guide/rest-api.html#some-useful-commands).
+
+##### P2P Networking
+
+Nimbus listens on TCP/UDP port 9000 (libp2p/discv5) and UDP port 9001 (QUIC) by default.
+
+##### Binary Verification
+
+Nimbus doesn't publish a GPG signature or a top-level checksums file for its release tarball - only a `.sha512sum` bundled inside the tarball alongside the binary it describes. The Fiftysix image verifies against that checksum, which still catches transfer corruption, though (unlike Reth/Lighthouse/Prysm's independent GPG signatures) it offers no real protection against a tampered release, since both the binary and its checksum come from the same artifact.
+
+##### Flags and Configuration
+
+For more information on flags/config settings, run `nimbus_beacon_node --help` or visit the [Nimbus guide](https://nimbus.guide/).
 
 #### Lodestar
 
