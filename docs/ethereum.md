@@ -186,13 +186,34 @@ It is also required to run a client that implements Ethereum's proof-of-stake co
 
 "Prysm: An Ethereum Consensus Implementation Written in Go" - [Prysm Github](https://github.com/prysmaticlabs/prysm)
 
+Prysm's own GitHub org is [OffchainLabs/prysm](https://github.com/OffchainLabs/prysm) (formerly under prysmaticlabs, which now redirects). Like Lighthouse, Prysm can't run standalone and requires pairing with an execution client - see [Pairing with an execution client](#pairing-with-an-execution-client) under Lighthouse above for the general JWT-sharing approach, which applies here too via `--execution-endpoint`/`--jwt-secret`.
+
+A couple of differences from Lighthouse worth calling out for anyone extending this image:
+- Prysm requires `--accept-terms-of-use` or it blocks waiting for an interactive prompt and fails fast once it detects no TTY - the Fiftysix entrypoint always passes this.
+- Unlike Lighthouse/Reth's CLI, Prysm's CLI tolerates a flag being passed twice and uses the last occurrence, so the entrypoint doesn't need Lighthouse's "only default a flag if the caller hasn't set it" logic - defaults are simply prepended and any caller-supplied flag safely overrides them.
+- This was also verified end-to-end locally against `fiftysix/reth`, the same way as Lighthouse: `execution: Connected to new endpoint endpoint=http://reth-node:8551`, followed by real `initial-sync: Processing blocks` progress.
+
 ##### REST API
 
+The default HTTP API port is 3500, and can be accessed using the following requests:
+
 ```
-http://127.0.0.1:3500/eth/v1/beacon/states/finalized/root
+curl http://127.0.0.1:3500/eth/v1/beacon/states/finalized/root
 ```
 
 More information can be found on the [Prysm documentation website](https://docs.prylabs.network/docs/how-prysm-works/ethereum-public-api).
+
+##### P2P Networking
+
+Prysm listens on TCP port 13000 (libp2p) and UDP port 12000 (discv5) by default.
+
+##### Binary Verification
+
+Prysm publishes both a `.sha256` and a detached GPG `.sig` per release asset. Since the `.sha256` file is unsigned and comes from the same channel as the binary itself, the Fiftysix image verifies the GPG signature instead, pinned to a Prysm core maintainer's published signing key.
+
+##### Flags and Configuration
+
+For more information on flags/config settings, run `beacon-chain --help` or visit the [Prysm documentation website](https://docs.prylabs.network/).
 
 #### Teku
 
