@@ -6,12 +6,19 @@ mkdir -p /etc/besu
 ln -sf /node/besu/data/bin/besu /etc/besu/besu
 export PATH="/etc/besu:$PATH"
 
-# generate a new jwt file
-openssl rand -hex 32 | tr -d "\n" > "/${ROOT_DIR}/data/jwt.hex"
+# only generate a jwt secret if one doesn't already exist - regenerating it on
+# every restart would invalidate the paired consensus client's cached secret
+if [ ! -f "${ROOT_DIR}/data/jwt.hex" ]; then
+  openssl rand -hex 32 | tr -d "\n" > "${ROOT_DIR}/data/jwt.hex"
+fi
 
 chown -R nodeuser "${ROOT_DIR}"
 
-if [ "$#" -eq 1 ] && [ "$1" = "besu" ]; then
+if [ "$(echo "$1" | cut -c1)" = "-" ]; then
+  set -- besu "$@"
+fi
+
+if [ "$1" = "besu" ]; then
   set -- "$1" --config-file="${ROOT_DIR}/configs/config.toml" "${@:2}"
 fi
 
