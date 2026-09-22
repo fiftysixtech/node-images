@@ -135,6 +135,49 @@ Erigon auto-generates `jwt.hex` on first launch if it doesn't already exist at t
 
 For more information on flags/config settings, visit the [erigon documentation website](https://docs.erigon.tech/fundamentals/configuring-erigon).
 
+#### Reth
+
+"Reth (short for Rust Ethereum) is a new Ethereum full node implementation that is focused on being user-friendly, highly modular, as well as being fast and efficient." - [Reth Github](https://github.com/paradigmxyz/reth)
+
+Reth is maintained by [Paradigm](https://www.paradigm.xyz/) and is also the execution client that Base's own node image is built on. Unlike geth, erigon, besu, and nethermind, reth does not accept RPC/networking/authrpc settings through a checked-in config file - its own `--config` flag only covers staged-sync/database/prune settings. The Fiftysix entrypoint instead passes the standard set of flags (chain, HTTP, WS, Engine API, networking) directly on the command line, and only applies a default for a given flag if the caller hasn't already supplied it themselves - so any flag can still be overridden by appending it to the container's command.
+
+##### JSON-RPC
+
+The default RPC port is 8545, and can be accessed using the following requests:
+
+```
+curl -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":83}' --url localhost:8545
+```
+
+A full list of RPC methods can be found on the [Ethereum website](https://ethereum.org/en/developers/docs/apis/json-rpc).
+
+##### Websocket (WS)
+
+The default WS port is 8546.
+
+##### Hardware Requirements
+
+Per [reth's system requirements documentation](https://reth.rs/run/system-requirements), for an Ethereum mainnet node:
+
+| Mode | Disk (Recommended) | RAM (Recommended) |
+| --- | --- | --- |
+| Full node | 1.2 TB+ (TLC NVMe) | 8 GB+ |
+| Archive node | 2.8 TB+ (TLC NVMe) | 16 GB+ |
+
+A TLC (not QLC) NVMe drive is recommended - reth's own documentation notes disk is by far the most important requirement, with CPU/RAM being comparatively flexible.
+
+##### JWT Secret
+
+Reth auto-generates `jwt.hex` on first launch if it doesn't already exist at the path given to `--authrpc.jwtsecret`, and both the execution and consensus client must share that same file. The Fiftysix entrypoint only creates it when missing, so restarting the reth container does not invalidate the paired consensus client's cached secret.
+
+##### Binary Verification
+
+Reth doesn't publish a `checksums.txt` alongside its releases the way erigon does - only a detached GPG signature per release asset. The Fiftysix image verifies the downloaded binary against that signature using Paradigm's published signing key at build time.
+
+##### Flags and Configuration
+
+For more information on flags/config settings, visit the [reth CLI reference](https://reth.rs/cli/reth/node) and the [reth documentation website](https://reth.rs).
+
 ### Consensus Clients
 
 It is also required to run a client that implements Ethereum's proof-of-stake consensus algorithm, which enables the network to achieve agreement based on validated data from the execution client. More information on this can be found on the [Ethereum officil documentation](https://ethereum.org/en/developers/docs/nodes-and-clients/#consensus-clients).
