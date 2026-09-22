@@ -217,15 +217,35 @@ For more information on flags/config settings, run `beacon-chain --help` or visi
 
 #### Teku
 
-"Teku is an open-source Ethereum consensus client written in Java and containing a full beacon node and validator client implementation." - [Teku Github](https://github.com/Consensys/teku)
+"Teku is an open-source Ethereum consensus client written in Java and containing a full beacon node and validator client implementation." - [Teku Github](https://github.com/Consensys-Incorporated/teku)
+
+Teku's GitHub org moved to [Consensys-Incorporated/teku](https://github.com/Consensys-Incorporated/teku) (the old `Consensys/teku` link redirects), and its docs moved to [docs.teku.consensys.io](https://docs.teku.consensys.io/) (the old `consensys.github.io/teku` link is now dead - both corrected here). Like Lighthouse/Prysm, Teku can't run standalone and requires pairing with an execution client - see [Pairing with an execution client](#pairing-with-an-execution-client) under Lighthouse above for the general JWT-sharing approach; here it's `--ee-endpoint`/`--ee-jwt-secret-file`.
+
+Teku is a Java client and requires a JDK at runtime, using the same Oracle JDK 26 install already established for Besu in this repo (Teku's own release notes require Java 25+).
+
+**A real, non-obvious bug found and fixed while building this image:** the Dockerfile's build-time version `ENV` was originally named `TEKU_VERSION`, matching the naming convention every other client Dockerfile in this repo uses (`ERIGON_VERSION`, `RETH_VERSION`, etc.). That name collides with an env var Teku's own Java code reads internally and undocumented - setting it silently short-circuits the app into printing its version banner and exiting immediately, no matter what CLI flags are passed, with no error of any kind. Confirmed empirically (unsetting it restored normal startup). Renamed to `TEKU_CLIENT_VERSION`, matching Besu's own Dockerfile, which already avoids the equivalent `BESU_VERSION` name - possibly for the same reason.
 
 ##### REST API
 
+The default REST API port is 5051, and can be accessed using the following requests:
+
 ```
-curl -I -X GET "http://192.10.10.101:5051/teku/v1/admin/liveness"
+curl -I -X GET "http://127.0.0.1:5051/teku/v1/admin/liveness"
 ```
 
-More information can be found on the [official Teku documentation](https://consensys.github.io/teku/).
+More information can be found in the [Teku REST API reference](https://docs.teku.consensys.io/reference/rest).
+
+##### P2P Networking
+
+Teku listens on port 9000 (TCP/UDP) for its P2P connections by default.
+
+##### Binary Verification
+
+Teku doesn't publish a GPG signature per release the way Reth/Lighthouse/Prysm do - only an unsigned `.sha256`, the same situation Erigon is in. The Fiftysix image follows the same pattern already established for Erigon: the checksum is fetched and verified at build time.
+
+##### Flags and Configuration
+
+For more information on flags/config settings, run `teku --help` or visit the [Teku user documentation](https://docs.teku.consensys.io/).
 
 #### Nimbus
 
