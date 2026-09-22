@@ -1,4 +1,4 @@
-FROM fiftysix/node-base:0.2.0
+FROM fiftysix/node-base:0.3.0
 
 LABEL maintainer="nodes@fiftysix.xyz"
 LABEL description="Ethereum lighthouse consensus client built using the Fiftysix base image"
