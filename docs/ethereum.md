@@ -283,13 +283,35 @@ For more information on flags/config settings, run `nimbus_beacon_node --help` o
 
 "Lodestar is a TypeScript implementation of the Ethereum Consensus specification developed by ChainSafe Systems." - [Lodestar Github](https://github.com/ChainSafe/lodestar)
 
+Ships as a self-extracting bundle (a full Node.js runtime plus the app, packaged via [caxa](https://github.com/leafac/caxa)) rather than a native binary. Like Lighthouse/Prysm/Teku/Nimbus, Lodestar can't run standalone and requires pairing with an execution client - see [Pairing with an execution client](#pairing-with-an-execution-client) under Lighthouse above for the general JWT-sharing approach; here it's `--execution.urls`/`--jwtSecret`.
+
+**Two real, non-obvious issues found while building this image:**
+- Lodestar's CLI (yargs) does prefix-based environment variable auto-mapping: any `LODESTAR_*` env var is treated as an implicit CLI flag override. The Dockerfile's own build-time version variable can't be named `LODESTAR_CLIENT_VERSION` (this repo's usual convention) because `LODESTAR_CLIENT_VERSION` gets mapped to a nonexistent `--clientVersion` flag and hard-fails every `lodestar beacon` invocation with `Unknown argument: clientVersion` - a different flavor of the same bug Teku's `TEKU_VERSION` hit. Named `CLIENT_VERSION` instead.
+- A duplicated *dotted* CLI flag (e.g. `--rest.port` passed twice) is coerced by yargs into an array rather than using either value, which crashes the REST server (`The argument 'options' is invalid`). This is inconsistent with yargs' own last-wins behavior for plain top-level flags (confirmed separately) - a real footgun specific to nested options. The entrypoint uses the same `has_flag` conditional-default pattern as Reth/Lighthouse/Teku to avoid ever emitting a flag the caller already supplied, rather than relying on yargs to resolve the conflict.
+
+The bundled runtime is unpacked into `/tmp/caxa` on first run (~130MB, several seconds). Since that directory persists in the image once written, the Fiftysix Dockerfile runs `lodestar --version` once at build time to pre-warm it, so every container start skips the unpack step - though Node.js still takes a few seconds to boot regardless.
+
 ##### REST API
+
+The default REST API port is 9596, and can be accessed using the following requests:
 
 ```
 curl http://localhost:9596/eth/v1/node/version
 ```
 
 More information can be found on the [Lodestar documentation](https://chainsafe.github.io/lodestar/).
+
+##### P2P Networking
+
+Lodestar listens on TCP/UDP port 9000 by default.
+
+##### Binary Verification
+
+Unlike every other client in this repo, Lodestar publishes no checksum and no signature of any kind for its release tarball - not even an unsigned one bundled inside it (Nimbus's situation). There is nothing independent to verify the download against, so - like Besu/Nethermind - no verification step is performed.
+
+##### Flags and Configuration
+
+For more information on flags/config settings, run `lodestar beacon --help` or visit the [Lodestar CLI reference](https://chainsafe.github.io/lodestar/reference/cli).
 
 #### Lighthouse
 
