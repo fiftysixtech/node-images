@@ -234,13 +234,39 @@ More information can be found on the [Lodestar documentation](https://chainsafe.
 
 "An open-source Ethereum consensus client, written in Rust and maintained by Sigma Prime." - [Lighthouse Github](https://github.com/sigp/lighthouse)
 
+Lighthouse currently has the largest share of Ethereum mainnet consensus client traffic. Unlike an execution client, a consensus client cannot run standalone - the Fiftysix image does not (and cannot) supply defaults for `--execution-endpoint` or `--execution-jwt`, since those have to point at whichever execution client this node is paired with. Lighthouse's own CLI enforces `--execution-endpoint` as required and will fail immediately with a clear error if it isn't supplied.
+
+##### Pairing with an execution client
+
+- `--execution-endpoint` must be set to the paired execution client's Engine API URL (e.g. `http://<execution-service-name>:8551`).
+- `--execution-jwt` must point at the *same* `jwt.hex` file the execution client generated - it has to be shared in via a mounted volume (e.g. mounting the execution client's data volume, or just the `jwt.hex` file, read-only into the Lighthouse container). Lighthouse does not generate its own JWT secret the way an execution client does, since generating an independent one would silently produce a mismatched secret.
+- This was verified end-to-end locally: a `fiftysix/reth` container and a `fiftysix/lighthouse` container on a shared Docker network, with reth's data volume mounted read-only into the Lighthouse container and `--execution-jwt` pointed at the shared `jwt.hex`, successfully authenticated and began pulling real execution payloads from reth (`Sync state updated ... new_state: Syncing Finalized Chain`).
+
+##### Checkpoint Sync
+
+By default Lighthouse refuses to sync from genesis (`Syncing from genesis is insecure and incompatible with data availability checks`) unless `--allow-insecure-genesis-sync` is explicitly passed, which is not recommended. For a practical, fast sync, pass `--checkpoint-sync-url <URL>` pointing at a trusted checkpoint sync provider - see the [public endpoint list](https://eth-clients.github.io/checkpoint-sync-endpoints/). The Fiftysix image intentionally does not bake in a default third-party checkpoint sync endpoint.
+
 ##### REST API
+
+The default HTTP API port is 5052, and can be accessed using the following requests:
 
 ```
 curl http://localhost:5052/eth/v1/node/version
 ```
 
 More information can be found on the [Lighthouse documentation](https://lighthouse-book.sigmaprime.io/api-bn.html).
+
+##### P2P Networking
+
+Lighthouse listens on port 9000 (TCP/UDP) for its libp2p peer connections by default.
+
+##### Binary Verification
+
+Lighthouse doesn't publish a `checksums.txt` alongside its releases - only a detached GPG signature per release asset. The Fiftysix image verifies the downloaded binary against that signature using Sigma Prime's published signing key at build time.
+
+##### Flags and Configuration
+
+For more information on flags/config settings, run `lighthouse bn --help` or visit the [Lighthouse book](https://lighthouse-book.sigmaprime.io/).
 
 ## Other Resources
 
