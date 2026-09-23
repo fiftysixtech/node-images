@@ -47,6 +47,10 @@ For more information on flags/config settings, visit the [geth flag documentatio
 
 "Nethermind is a high-performance, highly configurable Ethereum execution client built on .NET that runs on Linux, Windows, and macOS and supports Clique, Aura, and Ethash. With breakneck sync speeds and support for external plugins, it provides reliable access to rich on-chain data thanks to a high-performance JSON-RPC interface and node health monitoring with Grafana and Seq." - [Nethermind Github](https://github.com/NethermindEth/nethermind)
 
+Nethermind's release asset filenames embed a build-specific commit hash (e.g. `nethermind-2.0.0-bec830cd-linux-x64.zip`) that changes every release and can't be derived from the version number alone. Earlier images in this repo hardcoded that hash as a separate Dockerfile `ENV`, which meant a version bump also required manually looking up and updating the hash - the `2.0.0` image resolves it dynamically via the GitHub Releases API instead (filtering on the stable `linux-x64.zip` suffix), so bumping the version alone is sufficient again. `2.0.0` is also the first Nethermind image in this repo to verify its release signature (GPG, against Nethermind's own `devops@nethermind.io` key) - earlier versions had no verification at all.
+
+**Nethermind 2.0.0 has a real breaking change relevant to this image's config**: the Engine API port (`JsonRpc.EnginePort`) now defaults to `null` and must be set explicitly, or the node fails to start immediately with `Engine module wasn't configured on any port`. `config.cfg` sets `JsonRpc.EnginePort: 8551` and `JsonRpc.EngineHost`/`JsonRpc.Host: "0.0.0.0"` explicitly for this reason (confirmed by hitting the crash first, then fixing it).
+
 ##### JSON-RPC
 
 The default RPC port is 8545, and can be accessed using the following requests:
