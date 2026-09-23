@@ -136,7 +136,7 @@ actually available — don't fake a stronger guarantee than exists, and don't sk
 | Teku | Unsigned `.sha256` per asset | Same as Erigon |
 | Reth, Lighthouse, Prysm | Detached GPG signature per asset (Prysm also has an unsigned `.sha256`, but that adds nothing beyond the signature) | `gpg --verify` against a pinned, confirmed maintainer fingerprint |
 | Nimbus | `.sha512sum` bundled **inside** the release tarball, next to the binary it describes | Verified against it, but documented as weak: both the binary and its checksum come from the same artifact, so it catches transfer corruption only, not a tampered release |
-| Besu, Nethermind, Lodestar | Nothing at all | No verification step (same posture as Besu/Nethermind, which predate this round of work) |
+| Nethermind (2.0.0+) | Detached GPG signature per asset | `gpg --verify` against a pinned, confirmed fingerprint - added when the image was updated to 2.0.0; earlier Nethermind images (and Besu, and Lodestar) have no verification at all |
 
 For a GPG-verified client: fetch the signature key from `keyserver.ubuntu.com`, pin the **full fingerprint** (never a
 short key ID) as a Dockerfile `ENV`, and confirm the "aka" identities in the `gpg --verify` output actually match the
