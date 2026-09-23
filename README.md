@@ -30,6 +30,13 @@ Our repository offers Dockerfiles and Docker Compose files specifically tailored
 - [Dogecoin](./docs/dogecoin.md)
 - [Ethereum Classic](./docs/ethereum-classic.md)
 
+### Ethereum Execution/Consensus Pairing
+
+Running an Ethereum execution client paired with a consensus (beacon) client, or adding a new Ethereum client image
+to this repo? Read [Ethereum Execution/Consensus Pairing: Setup Notes & Known Edge Cases](./docs/ethereum-execution-consensus-pairing.md)
+first - it documents the JWT-sharing mechanism, per-client CLI quirks, `node-base` version selection, and binary
+verification approaches, all found by actually building and pairing every client currently in this repo.
+
 ## Getting Started
 
 To get started, follow the links above to install Docker on your system, review the blockchain-specific requirements, and select the appropriate Dockerfiles and Compose files for the blockchain nodes you wish to run. Each linked document provides detailed instructions and examples to help you through the process.
