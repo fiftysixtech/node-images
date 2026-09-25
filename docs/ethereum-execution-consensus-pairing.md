@@ -143,6 +143,40 @@ short key ID) as a Dockerfile `ENV`, and confirm the "aka" identities in the `gp
 project before trusting it — this is how the Reth/Lighthouse/Prysm keys were each confirmed as the real
 Paradigm/Sigma Prime/Prysmatic Labs maintainer, not just "a key that happens to verify."
 
+## Build-hash-suffixed release filenames (Nethermind, Nimbus)
+
+Two, unrelated clients hit the identical problem: their release asset filenames embed a build-specific identifier that
+isn't the version number and can't be derived from it —
+`nethermind-2.0.0-bec830cd-linux-x64.zip` (a commit hash) and `nimbus-eth2_Linux_amd64_26.8.0_404a0001.tar.gz` (a build
+ID). Both Dockerfiles originally hardcoded that value as a separate `ENV`, alongside the actual version `ENV`. The
+consequence: a version bump needs *two* things updated, not one, and this repo's own `createNewDockerfile.sh`
+automation only ever updates one (a plain string substitution of the old version number for the new one) — so an
+automated bump silently produces a Dockerfile pointing at a release asset that doesn't exist. This is very likely why
+Nethermind specifically ended up nine versions behind before anyone noticed (ten stale version directories had
+accumulated with the current one never bumped) — not because nobody was watching, but because the one tool that
+exists for watching couldn't actually update it.
+
+**The fix, for both**: resolve the download URL dynamically via the GitHub Releases API at build time, filtering on
+whichever part of the filename *is* stable (a fixed prefix, a fixed suffix, or both) instead of hardcoding the
+variable part. Confirmed working for a real version bump, not just the current pinned version: Nimbus was bumped to a
+real prior release (`26.7.0`) via the ordinary `createNewDockerfile.sh` + `testNewChainDockerfile.sh` flow, and the
+correct, differently-hashed `26.7.0` binary came down and ran — proving the fix, not just the current version, works.
+
+**If you're adding a new client and its release filenames look like this, use the same pattern from the start**
+(`RELEASE_API_URL="https://api.github.com/repos/<owner>/<repo>/releases/tags/<version>"`, then `curl -s
+"${RELEASE_API_URL}" | jq -r '.assets[] | select(.name | <stable prefix/suffix match>) | .browser_download_url'`
+inside the `RUN` block) rather than hardcoding — it costs one extra `jq` install (purged after use, same as `gnupg`
+elsewhere in this repo) and makes every future version bump for that client actually work with the existing
+automation, instead of needing its own manual hash lookup forever.
+
+**A second, generalized defense**, for the case where a future client hits this same problem and someone hardcodes
+the value again anyway: `testNewChainDockerfile.sh` now checks whether the requested version string actually appears
+anywhere in the built image's own startup logs, and prints a loud (non-fatal) warning if it doesn't. Every client in
+this repo prints its own version somewhere in its normal startup output, so this catches "the container runs, but
+it's quietly not the version that was asked for" without needing to know anything about *why* it might be wrong —
+verified by intentionally building with a mismatched version string and confirming the warning fires, and separately
+confirming it stays silent for a correct build.
+
 ## CLI parsing edge cases, per client
 
 Every client's flag-parsing library behaves differently on things this repo's entrypoints depend on: whether a

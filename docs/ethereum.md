@@ -261,6 +261,8 @@ Like Lighthouse/Prysm/Teku, Nimbus can't run standalone and requires pairing wit
 - Nimbus's (Nim/confutils) CLI only accepts `--flag=value` - a space-separated `--flag value` is silently misparsed as two separate tokens and fails with a confusing `does not accept arguments` error. Every flag passed to this image, including overrides, must use `=`.
 - Unlike Reth/Lighthouse/Teku's CLI (which errors on a duplicated flag), Nimbus's CLI tolerates being passed the same flag twice and uses the last occurrence, so - like Prysm - the entrypoint's defaults are simply prepended rather than needing conditional logic.
 
+Nimbus's release asset filenames also embed a build-specific commit hash (e.g. `nimbus-eth2_Linux_amd64_26.8.0_404a0001.tar.gz`) that changes every release and can't be derived from the version number alone - the same problem Nethermind's image hit. The download URL is resolved dynamically via the GitHub Releases API at build time instead of hardcoding the hash, so bumping `NIMBUS_CLIENT_VERSION` alone is sufficient (verified by actually bumping it to a real prior release, `26.7.0`, and confirming the correctly-different binary and hash came down).
+
 ##### REST API
 
 The default REST API port is 5052, and can be accessed using the following requests:
