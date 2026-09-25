@@ -1,0 +1,20 @@
+datadir = "/node/erigon/data"
+chain = "mainnet"
+
+http = true
+"http.addr" = "0.0.0.0"
+"http.port" = 8545
+"http.vhosts" = "*"
+"http.api" = "eth,erigon,web3,net,trace,txpool"
+
+ws = true
+"ws.port" = 8546
+
+"authrpc.addr" = "0.0.0.0"
+"authrpc.port" = 8551
+"authrpc.vhosts" = "*"
+"authrpc.jwtsecret" = "/node/erigon/data/jwt.hex"
+
+port = 30303
+nat = "none"
+maxpeers = 100
