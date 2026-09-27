@@ -1,0 +1,60 @@
+[Eth]
+NetworkId = 97
+
+[Eth.Miner]
+GasCeil = 35000000
+GasPrice = 100000000
+
+[Eth.TxPool]
+Locals = []
+NoLocals = true
+Journal = "transactions.rlp"
+Rejournal = 3600000000000
+PriceLimit = 100000000
+PriceBump = 10
+AccountSlots = 16
+GlobalSlots = 4096
+AccountQueue = 64
+GlobalQueue = 1024
+Lifetime = 10800000000000
+
+[Eth.GPO]
+Blocks = 20
+Percentile = 60
+OracleThreshold = 1000
+
+[Node]
+DataDir = "/node/bsc/data"
+IPCPath = "/node/bsc/data/geth.ipc"
+InsecureUnlockAllowed = false
+# Upstream's own published config.toml sets HTTPHost to "127.0.0.1", which
+# only accepts connections from inside the container - overridden to 0.0.0.0
+# here, same as every other client in this repo. Also normalized HTTPPort/
+# WSPort from upstream's 8575/8576 to this repo's usual 8545/8546, so mainnet
+# and testnet behave identically from the outside - only NetworkId, the
+# genesis file, and the bootnodes below actually differ between them.
+HTTPHost = "0.0.0.0"
+HTTPPort = 8545
+HTTPVirtualHosts = ["*"]
+HTTPModules = ["debug", "eth", "net", "web3", "txpool", "parlia"]
+WSHost = "0.0.0.0"
+WSPort = 8546
+WSModules = ["net", "web3", "eth"]
+
+[Node.P2P]
+MaxPeers = 50
+NoDiscovery = false
+TrustedNodes = []
+# Upstream's own published bootnodes for Chapel testnet - public, not secrets.
+StaticNodes = [
+  "enode://db1e2c76e34f85b75fdc2460aad25a64947acc4adabb60b4c95f50c03066a4884f44f2d4d4c1607190712a0315681d30caa8a1c7d850e7aa643e29a6c1692739@52.199.214.252:30311",
+  "enode://e5c4320eaa3357286cdde303df8b5b84f81013d86a72f91ecb2efc59b48a376bf16904d0a4e8ca44981c8d201bef439e1fb91c551d24aa39b65d930f03fc1823@52.51.80.128:30311",
+  "enode://75601809401e4dedf6477fa9b74170d932b76aba0d1de1c19b27ff0a424ede294b5fc235af64f41dd4003a43793f63f321082b4de6d6a0588b5c84215f909af9@3.209.122.123:30311",
+  "enode://665cf77ca26a8421cfe61a52ac312958308d4912e78ce8e0f61d6902e4494d4cc38f9b0dd1b23a427a7a5734e27e5d9729231426b06bb9c73b56a142f83f6b68@52.72.123.113:30311"
+]
+
+[Node.LogConfig]
+FileRoot = ""
+FilePath = "bsc.log"
+MaxBytesSize = 10485760
+Level = "info"

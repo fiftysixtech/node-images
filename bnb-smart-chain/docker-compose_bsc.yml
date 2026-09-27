@@ -1,0 +1,24 @@
+services:
+  bsc:
+    image: fiftysix/bsc:latest
+    container_name: bsc
+    environment:
+      - NETWORK=mainnet
+    command: >
+      geth
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+      - "30311:30311/tcp"
+      - "30311:30311/udp"
+    volumes:
+      - bsc-data:/node/bsc
+    networks:
+      - bnb-smart-chain-net
+
+networks:
+  bnb-smart-chain-net:
+    driver: bridge
+
+volumes:
+  bsc-data:
