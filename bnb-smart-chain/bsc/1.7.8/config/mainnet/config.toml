@@ -1,0 +1,55 @@
+[Eth]
+NetworkId = 56
+TrieTimeout = 150000000000
+
+[Eth.Miner]
+GasCeil = 70000000
+GasPrice = 50000000
+
+[Eth.TxPool]
+Locals = []
+NoLocals = true
+Journal = "transactions.rlp"
+Rejournal = 3600000000000
+PriceLimit = 50000000
+PriceBump = 10
+AccountSlots = 200
+GlobalSlots = 8000
+AccountQueue = 200
+GlobalQueue = 4000
+
+[Eth.GPO]
+Blocks = 20
+Percentile = 60
+OracleThreshold = 1000
+
+[Node]
+DataDir = "/node/bsc/data"
+IPCPath = "/node/bsc/data/geth.ipc"
+InsecureUnlockAllowed = false
+# Upstream's own published config.toml sets HTTPHost/WSHost to "localhost",
+# which only accepts connections from inside the container - overridden to
+# 0.0.0.0 here, same as every other client in this repo, so the ports
+# EXPOSEd below are actually reachable.
+HTTPHost = "0.0.0.0"
+HTTPPort = 8545
+HTTPVirtualHosts = ["*"]
+HTTPModules = ["eth", "net", "web3", "txpool", "parlia"]
+WSHost = "0.0.0.0"
+WSPort = 8546
+WSModules = ["net", "web3", "eth"]
+
+[Node.P2P]
+MaxPeers = 200
+NoDiscovery = false
+StaticNodes = []
+# Upstream's own default (30311) - kept as-is rather than normalized to
+# Ethereum's 30303, since BSC's own bootnodes and peers listen there.
+ListenAddr = ":30311"
+EnableMsgEvents = false
+
+[Node.LogConfig]
+FilePath = "bsc.log"
+MaxBytesSize = 10485760
+Level = "info"
+FileRoot = ""

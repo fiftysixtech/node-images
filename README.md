@@ -28,6 +28,7 @@ Our repository offers Dockerfiles and Docker Compose files specifically tailored
 - [Ethereum](./docs/ethereum.md)
 - [Arbitrum](./docs/arbitrum.md)
 - [Base](./docs/base.md)
+- [BNB Smart Chain](./docs/bnb-smart-chain.md)
 - [Litecoin](./docs/litecoin.md)
 - [Dogecoin](./docs/dogecoin.md)
 - [Ethereum Classic](./docs/ethereum-classic.md)
