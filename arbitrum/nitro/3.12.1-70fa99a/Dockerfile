@@ -24,10 +24,11 @@ ENV ROOT_DIR="/node/nitro"
 ENV DATA_DIR="${ROOT_DIR}/data"
 ENV SCRIPTS_DIR="${ROOT_DIR}/scripts"
 
-# The base image already runs as a non-root user ("user", uid 1000) with
-# HOME=/home/user - reused as-is rather than introducing fiftysix's usual
-# nodeuser/gosu pattern, which belongs to node-base and has no part in this
-# image.
+# The base image's non-root user ("user", uid 1000, HOME=/home/user) is reused
+# as-is rather than introducing fiftysix's usual nodeuser/gosu pattern, which
+# belongs to node-base and has no part in this image. The node still runs as that
+# user: the entrypoint starts as root only to fix ownership of the bind mounts
+# (setpriv, from util-linux, is already in the base image) and then drops to it.
 USER root
 RUN mkdir -p "${DATA_DIR}" "${SCRIPTS_DIR}" \
     && chown -R user:user "${ROOT_DIR}"
@@ -42,6 +43,6 @@ EXPOSE 8547 8548 9642
 
 VOLUME ["/node/nitro"]
 
-USER user
+# Stays root: see the entrypoint, which drops to "user" before starting nitro.
 ENTRYPOINT ["/node/nitro/scripts/nitro-entrypoint.sh"]
 CMD []
